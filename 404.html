@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found - EasyCPU 8086 Assembly Simulator</title>
+
+    <meta name="description" content="The page you're looking for doesn't exist. Go back to EasyCPU — a free online 8086 assembly language simulator and debugger.">
+    <meta name="robots" content="noindex, follow">
+    <link rel="canonical" href="https://easycpu.ioblako.com/">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body {
+            height: 100%;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #1a1b26;
+            color: #c0caf5;
+        }
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 24px;
+        }
+        .container {
+            text-align: center;
+            max-width: 600px;
+        }
+        .error-code {
+            font-size: clamp(80px, 15vw, 140px);
+            font-weight: 800;
+            color: #7aa2f7;
+            line-height: 1;
+            letter-spacing: -4px;
+            font-family: 'Segoe UI', monospace;
+        }
+        .error-code span {
+            display: inline-block;
+            animation: glitch 2.5s infinite;
+        }
+        .error-code span:nth-child(2) { animation-delay: 0.1s; }
+        .error-code span:nth-child(3) { animation-delay: 0.2s; }
+        @keyframes glitch {
+            0%, 93%, 100% { opacity: 1; transform: translateY(0); }
+            94% { opacity: 0.7; transform: translateY(-2px); }
+            95% { opacity: 1; transform: translateY(1px); }
+        }
+        .chip {
+            width: 80px;
+            height: 80px;
+            margin: 24px auto;
+        }
+        h1 {
+            font-size: 1.6rem;
+            margin: 16px 0 8px;
+            color: #c0caf5;
+            font-weight: 600;
+        }
+        p {
+            font-size: 1.05rem;
+            color: #a9b1d6;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .hint {
+            font-size: 0.85rem;
+            color: #565f89;
+            font-family: monospace;
+            margin: 20px 0 28px;
+            padding: 10px 16px;
+            background: #24283b;
+            border-radius: 6px;
+            border: 1px solid #3b4261;
+            display: inline-block;
+        }
+        .hint span { color: #9ece6a; }
+        .btn {
+            display: inline-block;
+            padding: 12px 32px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1a1b26;
+            background: #7aa2f7;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.15s;
+        }
+        .btn:hover { background: #89b4fa; transform: translateY(-1px); }
+        .btn:active { transform: translateY(0); }
+        .links {
+            margin-top: 24px;
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .links a {
+            color: #7aa2f7;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+        .links a:hover { color: #89b4fa; text-decoration: underline; }
+        .seo-content {
+            margin-top: 48px;
+            padding-top: 32px;
+            border-top: 1px solid #3b4261;
+            text-align: left;
+        }
+        .seo-content h2 {
+            font-size: 1.1rem;
+            color: #a9b1d6;
+            margin-bottom: 12px;
+        }
+        .seo-content ul {
+            list-style: none;
+            columns: 2;
+            gap: 8px;
+        }
+        .seo-content li {
+            font-size: 0.85rem;
+            color: #565f89;
+            padding: 3px 0;
+        }
+        .seo-content li::before {
+            content: ">";
+            color: #7aa2f7;
+            margin-right: 6px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="error-code"><span>4</span><span>0</span><span>4</span></div>
+
+        <svg class="chip" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+            <rect width="64" height="64" rx="12" fill="#24283b"/>
+            <rect x="12" y="12" width="40" height="40" rx="4" fill="#1a1b26" stroke="#3b4261" stroke-width="2"/>
+            <rect x="22" y="6" width="3" height="8" rx="1" fill="#3b4261"/>
+            <rect x="30" y="6" width="3" height="8" rx="1" fill="#3b4261"/>
+            <rect x="38" y="6" width="3" height="8" rx="1" fill="#3b4261"/>
+            <rect x="22" y="50" width="3" height="8" rx="1" fill="#3b4261"/>
+            <rect x="30" y="50" width="3" height="8" rx="1" fill="#3b4261"/>
+            <rect x="38" y="50" width="3" height="8" rx="1" fill="#3b4261"/>
+            <rect x="6" y="22" width="8" height="3" rx="1" fill="#3b4261"/>
+            <rect x="6" y="30" width="8" height="3" rx="1" fill="#3b4261"/>
+            <rect x="6" y="38" width="8" height="3" rx="1" fill="#3b4261"/>
+            <rect x="50" y="22" width="8" height="3" rx="1" fill="#3b4261"/>
+            <rect x="50" y="30" width="8" height="3" rx="1" fill="#3b4261"/>
+            <rect x="50" y="38" width="8" height="3" rx="1" fill="#3b4261"/>
+            <text x="32" y="36" text-anchor="middle" font-family="monospace" font-size="10" fill="#565f89">???</text>
+        </svg>
+
+        <h1>Segment Fault - Page Not Found</h1>
+        <p>The address you requested doesn't map to any valid memory location. Looks like this instruction jumped to the wrong offset.</p>
+
+        <div class="hint"><span>MOV</span> user, <span>homepage</span> &nbsp;; recommended fix</div>
+
+        <br>
+        <a href="/" class="btn">Back to EasyCPU Simulator</a>
+
+        <div class="links">
+            <a href="https://easycpu.ioblako.com/">Homepage</a>
+            <a href="https://easycpu.ioblako.com/#editor-panel">Code Editor</a>
+            <a href="https://easycpu.ioblako.com/#help-modal">Help Guide</a>
+        </div>
+
+        <div class="seo-content">
+            <h2>Looking for something? Try EasyCPU features:</h2>
+            <ul>
+                <li>8086 Assembly Code Editor</li>
+                <li>Step-by-step Debugger</li>
+                <li>Visual CPU Registers</li>
+                <li>Memory Hex Viewer</li>
+                <li>LED Output Display</li>
+                <li>7-Segment Display</li>
+                <li>32x32 Pixel Screen</li>
+                <li>Stack Viewer</li>
+                <li>I/O Port Simulation</li>
+                <li>Keyboard Input Buffer</li>
+                <li>Sample Programs</li>
+                <li>Coding Challenges</li>
+                <li>Number Converter</li>
+                <li>Execution Trace Log</li>
+            </ul>
+        </div>
+    </div>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "Page Not Found - EasyCPU",
+        "description": "The requested page was not found. Visit EasyCPU to use the free online 8086 assembly simulator.",
+        "url": "https://easycpu.ioblako.com/404.html",
+        "isPartOf": {
+            "@type": "WebApplication",
+            "name": "EasyCPU",
+            "url": "https://easycpu.ioblako.com/"
+        }
+    }
+    </script>
+</body>
+</html>

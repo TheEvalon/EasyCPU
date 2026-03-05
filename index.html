@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EasyCPU - Free Online 8086 Assembly Simulator &amp; Debugger</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="EasyCPU is a free online 8086 assembly language simulator. Write, assemble, debug, and run Intel 8086 programs directly in your browser with a visual CPU, registers, memory viewer, LEDs, 7-segment display, and pixel screen.">
+    <meta name="keywords" content="8086 simulator, assembly language, 8086 emulator, Intel 8086, assembly simulator online, learn assembly, x86 assembly, CPU simulator, assembly debugger, 8086 programming, assembly language tutorial, online assembler, microprocessor simulator, computer architecture, low-level programming, 8086 instruction set, assembly code editor, CPU emulator online, learn x86, asm simulator, assembly IDE, machine code, register viewer, stack simulator, memory viewer, 8086 assembly examples, beginner assembly language, educational CPU simulator, Intel 8086 emulator online, free assembly simulator">
+    <meta name="author" content="EasyCPU">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="googlebot" content="index, follow">
+    <meta name="bingbot" content="index, follow">
+    <meta name="theme-color" content="#1a1b26">
+    <meta name="color-scheme" content="dark">
+    <meta name="application-name" content="EasyCPU">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="EasyCPU">
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="canonical" href="https://easycpu.ioblako.com/">
+
+    <!-- Open Graph / Facebook / LinkedIn / Discord -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://easycpu.ioblako.com/">
+    <meta property="og:title" content="EasyCPU - Free Online 8086 Assembly Simulator">
+    <meta property="og:description" content="Write, assemble, debug and run Intel 8086 assembly programs in your browser. Visual CPU with registers, memory, LEDs, 7-segment display and pixel screen.">
+    <meta property="og:image" content="https://easycpu.ioblako.com/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="EasyCPU 8086 Assembly Simulator Interface">
+    <meta property="og:site_name" content="EasyCPU">
+    <meta property="og:locale" content="en_US">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="EasyCPU - Free Online 8086 Assembly Simulator">
+    <meta name="twitter:description" content="Write, assemble, debug and run Intel 8086 assembly programs in your browser. Visual CPU with registers, memory, LEDs, 7-segment display and pixel screen.">
+    <meta name="twitter:image" content="https://easycpu.ioblako.com/og-image.png">
+    <meta name="twitter:image:alt" content="EasyCPU 8086 Assembly Simulator Interface">
+
+    <!-- Google Search Console verification (replace content value with your own) -->
+    <!-- <meta name="google-site-verification" content="YOUR_VERIFICATION_CODE_HERE"> -->
+
+    <!-- Favicon & Icons -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <meta name="msapplication-TileColor" content="#1a1b26">
+    <meta name="msapplication-config" content="/browserconfig.xml">
+
+    <!-- Web App Manifest & Author -->
+    <link rel="manifest" href="/manifest.json">
+    <link rel="author" href="/humans.txt">
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "EasyCPU",
+        "alternateName": "EasyCPU 8086 Simulator",
+        "url": "https://easycpu.ioblako.com/",
+        "description": "Free online 8086 assembly language simulator. Write, assemble, debug, and run Intel 8086 programs directly in your browser with a visual CPU, registers, memory viewer, LEDs, 7-segment display, and pixel screen.",
+        "applicationCategory": "EducationalApplication",
+        "applicationSubCategory": "Programming Tool",
+        "operatingSystem": "Any (Web Browser)",
+        "browserRequirements": "Requires JavaScript, modern web browser",
+        "softwareVersion": "1.0",
+        "inLanguage": "en",
+        "isAccessibleForFree": true,
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "author": {
+            "@type": "Organization",
+            "name": "EasyCPU",
+            "url": "https://easycpu.ioblako.com/"
+        },
+        "screenshot": "https://easycpu.ioblako.com/og-image.png",
+        "featureList": [
+            "8086 Assembly Code Editor with Syntax Highlighting",
+            "Step-by-step Debugger with Breakpoints",
+            "Visual Register and Flag Display",
+            "Memory Viewer",
+            "Stack Viewer",
+            "LED Output Display",
+            "7-Segment Display",
+            "32x32 Pixel Display",
+            "I/O Port Simulation",
+            "Keyboard Input Buffer",
+            "Sample Programs Library",
+            "Coding Challenges with Auto-grading",
+            "Number Converter (Hex/Dec/Bin)",
+            "Beginner and Advanced Modes",
+            "Save/Load/Download Programs"
+        ],
+        "keywords": "8086, assembly, simulator, emulator, Intel, CPU, debugger, programming, educational"
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is EasyCPU?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "EasyCPU is a free, browser-based Intel 8086 assembly language simulator and debugger. It lets you write, assemble, and execute 8086 assembly programs with a visual interface showing CPU registers, flags, memory, stack, LEDs, 7-segment displays, and a pixel screen."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How do I learn 8086 assembly language?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "EasyCPU provides a beginner-friendly environment to learn 8086 assembly. Start with the built-in sample programs, use the step-by-step debugger to see how each instruction changes registers and memory, and try the auto-graded coding challenges to test your skills."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Is EasyCPU free to use?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes, EasyCPU is completely free. It runs entirely in your web browser with no installation, signup, or download required."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What 8086 instructions does EasyCPU support?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "EasyCPU supports a wide range of Intel 8086 instructions including MOV, ADD, SUB, MUL, DIV, AND, OR, XOR, NOT, CMP, JMP, JE, JNE, JG, JL, PUSH, POP, CALL, RET, INT, IN, OUT, LOOP, and many more. It also supports labels, comments, and data directives like DB and DW."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <noscript>
+        <div style="max-width:800px;margin:40px auto;padding:20px;font-family:sans-serif;color:#c0caf5;background:#1a1b26;">
+            <h1>EasyCPU - Free Online 8086 Assembly Simulator &amp; Debugger</h1>
+            <p>EasyCPU is a free, browser-based Intel 8086 assembly language simulator and debugger. Write, assemble, debug, and run 8086 assembly programs directly in your browser — no installation required.</p>
+            <h2>Features</h2>
+            <ul>
+                <li>8086 Assembly Code Editor with syntax highlighting and autocomplete</li>
+                <li>Step-by-step debugger with breakpoints and execution trace</li>
+                <li>Visual CPU register display (AX, BX, CX, DX, SP, BP, SI, DI, IP, DS, SS, CS)</li>
+                <li>CPU flags viewer (CF, ZF, SF, OF, PF, AF)</li>
+                <li>Memory viewer with hex dump</li>
+                <li>Stack viewer</li>
+                <li>LED output display (8 LEDs via Port 2)</li>
+                <li>7-segment display (Port 3)</li>
+                <li>32x32 pixel display (Port 4)</li>
+                <li>Keyboard input buffer (Port 5/6)</li>
+                <li>I/O port simulation</li>
+                <li>Sample programs library for learning</li>
+                <li>Coding challenges with automatic grading</li>
+                <li>Number converter (Hexadecimal, Decimal, Binary)</li>
+                <li>Beginner and Advanced modes</li>
+                <li>Save, load, and download assembly programs</li>
+            </ul>
+            <h2>Learn 8086 Assembly Language</h2>
+            <p>EasyCPU supports a wide range of Intel 8086 instructions including MOV, ADD, SUB, MUL, DIV, AND, OR, XOR, NOT, CMP, JMP, JE, JNE, JG, JL, PUSH, POP, CALL, RET, INT, IN, OUT, LOOP, and many more. Perfect for students learning computer architecture, microprocessor programming, and low-level assembly language.</p>
+            <p><strong>JavaScript is required to run EasyCPU.</strong> Please enable JavaScript in your browser settings.</p>
+        </div>
+    </noscript>
+
+    <header id="toolbar">
+        <div class="toolbar-left">
+            <h1 class="logo">EasyCPU <span class="logo-sub">8086 Simulator</span></h1>
+        </div>
+        <div class="toolbar-center">
+            <button id="btn-assemble" title="Assemble (Ctrl+Enter)">Assemble</button>
+            <button id="btn-run" title="Run program" disabled>Run</button>
+            <button id="btn-step" title="Step one instruction" disabled>Step</button>
+            <button id="btn-step-back" class="adv" title="Step backward (undo last instruction)" disabled>Step Back</button>
+            <button id="btn-run-bp" class="adv" title="Run until next breakpoint" disabled>Run to BP</button>
+            <button id="btn-stop" title="Stop execution" disabled>Stop</button>
+            <button id="btn-reset" title="Reset CPU state">Reset</button>
+            <div class="speed-control">
+                <label for="speed-slider">Speed:</label>
+                <input type="range" id="speed-slider" min="1" max="100" value="50">
+            </div>
+            <div class="mode-toggle">
+                <span class="mode-label">Beginner</span>
+                <label class="switch">
+                    <input type="checkbox" id="mode-switch">
+                    <span class="slider"></span>
+                </label>
+                <span class="mode-label">Advanced</span>
+            </div>
+        </div>
+        <div class="toolbar-right">
+            <button id="btn-save" class="adv" title="Save program to browser">Save</button>
+            <select id="btn-load" class="adv" title="Load a saved program">
+                <option value="">-- Load Saved --</option>
+            </select>
+            <button id="btn-open" class="adv" title="Open .asm file">Open</button>
+            <button id="btn-download" class="adv" title="Download as .asm file">Download</button>
+            <label for="sample-select">Samples:</label>
+            <select id="sample-select">
+                <option value="">-- Load Sample --</option>
+            </select>
+            <button id="btn-help" title="Open beginner help guide">? Help</button>
+        </div>
+    </header>
+
+    <main id="app">
+        <section id="editor-panel">
+            <div class="panel-header" title="Write your 8086 assembly code here. Press Assemble to compile, then Run or Step to execute.">Code Editor
+                <span id="cycle-counter" class="adv cycle-counter"></span>
+            </div>
+            <div id="editor-container">
+                <div id="line-numbers"></div>
+                <textarea id="code-editor" spellcheck="false" wrap="off"
+                    placeholder="Write your 8086 assembly code here..."></textarea>
+                <pre id="highlight-overlay" class="adv" aria-hidden="true"></pre>
+                <div id="autocomplete-dropdown" class="adv ac-dropdown" style="display:none;"></div>
+            </div>
+        </section>
+
+        <section id="right-panels">
+            <div id="registers-panel" class="panel">
+                <div class="panel-header" title="CPU registers store data during execution. AX-DX are general-purpose, SP is the stack pointer, IP is the instruction pointer. Double-click a value in Advanced mode to edit.">Registers</div>
+                <div class="panel-body" id="registers-body">
+                    <div class="reg-group">
+                        <div class="reg-row"><span class="reg-name">AX</span><span class="reg-val" id="reg-ax">0000</span><span class="reg-byte-label">AH</span><span class="reg-val small" id="reg-ah">00</span><span class="reg-byte-label">AL</span><span class="reg-val small" id="reg-al">00</span></div>
+                        <div class="reg-row"><span class="reg-name">BX</span><span class="reg-val" id="reg-bx">0000</span><span class="reg-byte-label">BH</span><span class="reg-val small" id="reg-bh">00</span><span class="reg-byte-label">BL</span><span class="reg-val small" id="reg-bl">00</span></div>
+                        <div class="reg-row"><span class="reg-name">CX</span><span class="reg-val" id="reg-cx">0000</span><span class="reg-byte-label">CH</span><span class="reg-val small" id="reg-ch">00</span><span class="reg-byte-label">CL</span><span class="reg-val small" id="reg-cl">00</span></div>
+                        <div class="reg-row"><span class="reg-name">DX</span><span class="reg-val" id="reg-dx">0000</span><span class="reg-byte-label">DH</span><span class="reg-val small" id="reg-dh">00</span><span class="reg-byte-label">DL</span><span class="reg-val small" id="reg-dl">00</span></div>
+                    </div>
+                    <div class="reg-group">
+                        <div class="reg-row"><span class="reg-name">SP</span><span class="reg-val" id="reg-sp">0100</span></div>
+                        <div class="reg-row"><span class="reg-name">BP</span><span class="reg-val" id="reg-bp">0000</span></div>
+                        <div class="reg-row"><span class="reg-name">SI</span><span class="reg-val" id="reg-si">0000</span></div>
+                        <div class="reg-row"><span class="reg-name">DI</span><span class="reg-val" id="reg-di">0000</span></div>
+                    </div>
+                    <div class="reg-group">
+                        <div class="reg-row"><span class="reg-name">IP</span><span class="reg-val" id="reg-ip">0000</span></div>
+                        <div class="reg-row"><span class="reg-name">DS</span><span class="reg-val" id="reg-ds">0000</span></div>
+                        <div class="reg-row"><span class="reg-name">SS</span><span class="reg-val" id="reg-ss">0000</span></div>
+                        <div class="reg-row"><span class="reg-name">CS</span><span class="reg-val" id="reg-cs">0000</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="flags-panel" class="panel">
+                <div class="panel-header" title="Flags change automatically after arithmetic/logic operations.">Flags</div>
+                <div class="panel-body" id="flags-body">
+                    <div class="flag" id="flag-cf"><span class="flag-name">CF</span><span class="flag-val">0</span></div>
+                    <div class="flag" id="flag-zf"><span class="flag-name">ZF</span><span class="flag-val">0</span></div>
+                    <div class="flag" id="flag-sf"><span class="flag-name">SF</span><span class="flag-val">0</span></div>
+                    <div class="flag" id="flag-of"><span class="flag-name">OF</span><span class="flag-val">0</span></div>
+                    <div class="flag" id="flag-pf"><span class="flag-name">PF</span><span class="flag-val">0</span></div>
+                    <div class="flag" id="flag-af"><span class="flag-name">AF</span><span class="flag-val">0</span></div>
+                </div>
+                <div id="flag-explanation" class="adv flag-explanation"></div>
+            </div>
+
+            <div id="led-panel" class="panel">
+                <div class="panel-header" title="8 LEDs controlled by writing to port 2.">LED Output (Port 2)</div>
+                <div class="panel-body" id="led-body">
+                    <div class="led-row">
+                        <div class="led" id="led-7"><span class="led-bit">7</span></div>
+                        <div class="led" id="led-6"><span class="led-bit">6</span></div>
+                        <div class="led" id="led-5"><span class="led-bit">5</span></div>
+                        <div class="led" id="led-4"><span class="led-bit">4</span></div>
+                        <div class="led" id="led-3"><span class="led-bit">3</span></div>
+                        <div class="led" id="led-2"><span class="led-bit">2</span></div>
+                        <div class="led" id="led-1"><span class="led-bit">1</span></div>
+                        <div class="led" id="led-0"><span class="led-bit">0</span></div>
+                    </div>
+                    <div class="led-value">Value: <span id="led-hex">00h</span> (<span id="led-dec">0</span>)</div>
+                </div>
+            </div>
+
+            <div id="seven-seg-panel" class="panel adv">
+                <div class="panel-header" title="7-segment display controlled by port 3.">7-Seg Display (Port 3)</div>
+                <div class="panel-body" id="sevenseg-body">
+                    <div class="seven-seg-display">
+                        <div class="seg seg-h" id="seg-a"></div>
+                        <div class="seg seg-v seg-tl" id="seg-f"></div>
+                        <div class="seg seg-v seg-tr" id="seg-b"></div>
+                        <div class="seg seg-h seg-mid" id="seg-g"></div>
+                        <div class="seg seg-v seg-bl" id="seg-e"></div>
+                        <div class="seg seg-v seg-br" id="seg-c"></div>
+                        <div class="seg seg-h seg-bot" id="seg-d"></div>
+                    </div>
+                    <div class="sevenseg-val">Value: <span id="sevenseg-hex">0</span></div>
+                </div>
+            </div>
+
+            <div id="io-panel" class="panel">
+                <div class="panel-header" title="Set a hex value for input port 1. Your program reads it with 'in al, 1'.">I/O Ports</div>
+                <div class="panel-body" id="io-body">
+                    <div class="io-row">
+                        <label for="input-port">Input Port 1:</label>
+                        <input type="text" id="input-port" value="00" maxlength="2" class="hex-input">
+                        <span class="io-hint">hex (00-FF)</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="converter-panel" class="panel adv">
+                <div class="panel-header" title="Convert between hex, decimal, and binary.">Number Converter</div>
+                <div class="panel-body converter-body">
+                    <div class="conv-row"><label>Hex:</label><input type="text" id="conv-hex" class="hex-input conv-input" maxlength="4" value="0"></div>
+                    <div class="conv-row"><label>Dec:</label><input type="text" id="conv-dec" class="hex-input conv-input" maxlength="5" value="0"></div>
+                    <div class="conv-row"><label>Bin:</label><input type="text" id="conv-bin" class="hex-input conv-input conv-bin" maxlength="16" value="0"></div>
+                </div>
+            </div>
+
+            <div id="keyboard-panel" class="panel adv">
+                <div class="panel-header" title="Type characters here. Program reads with 'in al, 5'. Port 6 returns buffer length.">Keyboard (Port 5/6)</div>
+                <div class="panel-body" id="keyboard-body">
+                    <input type="text" id="keyboard-input" class="hex-input" style="width:100%" placeholder="Type here...">
+                    <div class="keybuf-label">Buffer: <span id="keybuf-display">(empty)</span></div>
+                </div>
+            </div>
+
+            <div id="stack-panel" class="panel">
+                <div class="panel-header" title="The stack stores temporary values.">Stack</div>
+                <div class="panel-body" id="stack-body">
+                    <div id="stack-content"></div>
+                </div>
+            </div>
+
+            <div id="pixel-panel" class="panel adv">
+                <div class="panel-header" title="32x32 pixel display. Memory E000h-E3FFh. Write to port 4 to refresh.">Pixel Display (Port 4)</div>
+                <div class="panel-body" id="pixel-body">
+                    <div id="pixel-grid" class="pixel-grid"></div>
+                </div>
+            </div>
+
+            <div id="challenge-panel" class="panel adv">
+                <div class="panel-header" title="Guided coding challenges with auto-grading.">Challenges
+                    <button id="btn-check-challenge" class="small-btn" style="display:none;">Check</button>
+                </div>
+                <div class="panel-body" id="challenge-body">
+                    <div id="challenge-list"></div>
+                    <div id="challenge-detail" style="display:none;"></div>
+                    <div id="challenge-result"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="memory-panel">
+            <div class="panel-header" title="View raw memory contents as hex bytes.">Memory Viewer
+                <div class="memory-controls">
+                    <label for="mem-addr">Go to:</label>
+                    <input type="text" id="mem-addr" value="0000" maxlength="4" class="hex-input">
+                    <button id="btn-mem-go">Go</button>
+                    <label for="mem-segment">Segment:</label>
+                    <select id="mem-segment">
+                        <option value="ds">DS (Data)</option>
+                        <option value="ss">SS (Stack)</option>
+                        <option value="cs">CS (Code)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="panel-body" id="memory-body">
+                <pre id="memory-dump"></pre>
+            </div>
+        </section>
+
+        <section id="trace-panel" class="adv">
+            <div class="panel-header" title="Execution trace showing each instruction and register state.">Trace Log
+                <button id="btn-clear-trace" class="small-btn">Clear</button>
+            </div>
+            <div class="panel-body" id="trace-body">
+                <table class="trace-table">
+                    <thead><tr><th>#</th><th>IP</th><th>Instr</th><th>AX</th><th>BX</th><th>CX</th><th>DX</th><th>Flags</th></tr></thead>
+                    <tbody id="trace-tbody"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="console-panel">
+            <div class="panel-header" title="Shows assembly results, errors, and execution messages.">Output Console
+                <button id="btn-clear-console" class="small-btn">Clear</button>
+            </div>
+            <div class="panel-body" id="console-body">
+                <div id="console-output"></div>
+            </div>
+        </section>
+    </main>
+
+    <input type="file" id="file-upload" accept=".asm,.txt,.ASM" style="display:none;">
+
+    <div id="help-modal" class="help-modal-overlay" style="display:none;">
+        <div class="help-modal">
+            <div class="help-modal-header">
+                <h2>EasyCPU Help Guide</h2>
+                <button id="btn-help-close" class="help-close-btn" title="Close help">&times;</button>
+            </div>
+            <div class="help-modal-content">
+                <nav class="help-sidebar" id="help-sidebar"></nav>
+                <div class="help-body" id="help-body"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/samples.js" defer></script>
+    <script src="js/assembler.js" defer></script>
+    <script src="js/cpu.js" defer></script>
+    <script src="js/mode.js" defer></script>
+    <script src="js/debugger.js" defer></script>
+    <script src="js/highlight.js" defer></script>
+    <script src="js/peripherals.js" defer></script>
+    <script src="js/storage.js" defer></script>
+    <script src="js/challenges.js" defer></script>
+    <script src="js/help.js" defer></script>
+    <script src="js/ui.js" defer></script>
+</body>
+</html>
