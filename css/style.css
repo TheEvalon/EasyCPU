@@ -1515,3 +1515,517 @@ body:not(.advanced-mode) .adv { display: none !important; }
 .advanced-mode #app {
     grid-template-rows: 1fr auto auto auto;
 }
+
+/* ============================================================
+   RESPONSIVE / MOBILE SUPPORT
+   ============================================================ */
+
+/* ---- TABLET (<=1024px) ---- */
+@media (max-width: 1024px) {
+    #app {
+        grid-template-columns: 1fr 280px;
+    }
+
+    .toolbar-right label[for="sample-select"] {
+        display: none;
+    }
+
+    #btn-save, #btn-open, #btn-download, #btn-load {
+        font-size: 11px;
+        padding: 4px 6px;
+    }
+
+    .speed-control label {
+        display: none;
+    }
+
+    #speed-slider {
+        width: 60px;
+    }
+}
+
+/* ---- SMALL TABLET / LARGE PHONE (<=768px) ---- */
+@media (max-width: 768px) {
+    html, body {
+        overflow: auto;
+        height: auto;
+    }
+
+    #toolbar {
+        flex-wrap: wrap;
+        height: auto;
+        padding: 8px 10px;
+        gap: 8px;
+    }
+
+    .toolbar-left {
+        width: 100%;
+        text-align: center;
+    }
+
+    .toolbar-center {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 6px;
+    }
+
+    .toolbar-right {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 6px;
+        width: 100%;
+    }
+
+    .mode-toggle {
+        margin-left: 0;
+    }
+
+    #app {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        min-height: calc(100vh - 120px);
+    }
+
+    #editor-panel {
+        min-height: 300px;
+        max-height: 50vh;
+    }
+
+    #right-panels {
+        overflow-y: visible;
+        max-height: none;
+    }
+
+    #memory-panel {
+        max-height: 250px;
+    }
+
+    #console-panel {
+        max-height: 200px;
+    }
+
+    #console-body {
+        max-height: 160px;
+    }
+
+    #trace-panel {
+        max-height: 200px;
+    }
+
+    .help-modal {
+        width: 96vw;
+        height: 92vh;
+    }
+
+    .help-modal-content {
+        flex-direction: column;
+    }
+
+    .help-sidebar {
+        width: 100%;
+        max-height: 140px;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+        display: flex;
+        flex-wrap: wrap;
+        padding: 6px;
+        gap: 4px;
+    }
+
+    .help-sidebar-item {
+        padding: 6px 10px;
+        font-size: 12px;
+        border-left: none;
+        border-radius: 4px;
+        white-space: nowrap;
+    }
+
+    .help-sidebar-item.active {
+        border-left: none;
+        background: var(--accent-blue);
+        color: #1a1b26;
+    }
+
+    .help-sidebar-label {
+        display: none;
+    }
+
+    .help-sidebar-divider {
+        display: none;
+    }
+
+    .help-body {
+        padding: 16px;
+    }
+
+    .help-body .help-table {
+        font-size: 11px;
+        display: block;
+        overflow-x: auto;
+    }
+
+    .pixel-grid {
+        grid-template-columns: repeat(32, 5px);
+        grid-template-rows: repeat(32, 5px);
+    }
+
+    .pixel {
+        width: 5px;
+        height: 5px;
+    }
+
+    .memory-controls {
+        flex-wrap: wrap;
+        gap: 4px;
+    }
+
+    #memory-dump {
+        font-size: 10px;
+    }
+}
+
+/* ---- PHONE (<=480px) ---- */
+@media (max-width: 480px) {
+    html {
+        font-size: 13px;
+    }
+
+    #toolbar {
+        padding: 6px 8px;
+        gap: 6px;
+    }
+
+    .logo {
+        font-size: 16px;
+    }
+
+    .logo-sub {
+        display: none;
+    }
+
+    button {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+
+    .toolbar-center {
+        gap: 4px;
+    }
+
+    .speed-control {
+        margin-left: 0;
+    }
+
+    #speed-slider {
+        width: 50px;
+    }
+
+    .mode-toggle {
+        margin-left: 0;
+    }
+
+    .mode-label {
+        font-size: 10px;
+    }
+
+    .toolbar-right label {
+        display: none;
+    }
+
+    #sample-select {
+        max-width: 120px;
+        font-size: 11px;
+    }
+
+    #editor-panel {
+        min-height: 250px;
+        max-height: 45vh;
+    }
+
+    #code-editor {
+        font-size: 12px;
+        padding: 8px;
+        tab-size: 2;
+    }
+
+    #line-numbers {
+        width: 32px;
+        font-size: 11px;
+    }
+
+    #highlight-overlay {
+        left: 33px;
+        font-size: 12px;
+        padding: 8px;
+        tab-size: 2;
+    }
+
+    .reg-row {
+        font-size: 12px;
+        gap: 4px;
+    }
+
+    .reg-name {
+        width: 20px;
+        font-size: 11px;
+    }
+
+    .reg-val {
+        min-width: 38px;
+        font-size: 12px;
+        padding: 1px 4px;
+    }
+
+    .reg-val.small {
+        min-width: 24px;
+        font-size: 11px;
+    }
+
+    .reg-byte-label {
+        font-size: 9px;
+        margin-left: 2px;
+    }
+
+    .flag {
+        padding: 3px 6px;
+        min-width: 34px;
+    }
+
+    .flag-name {
+        font-size: 9px;
+    }
+
+    .flag-val {
+        font-size: 12px;
+    }
+
+    #flags-body {
+        gap: 4px;
+        padding: 6px 8px;
+    }
+
+    .led {
+        width: 26px;
+        height: 26px;
+    }
+
+    .led-row {
+        gap: 6px;
+    }
+
+    .led-bit {
+        font-size: 8px;
+    }
+
+    .seven-seg-display {
+        width: 48px;
+        height: 80px;
+    }
+
+    .seg.seg-h {
+        width: 28px;
+        height: 5px;
+        left: 10px;
+    }
+    .seg.seg-mid { top: 38px; }
+    .seg.seg-bot { top: 74px; }
+    .seg.seg-v {
+        width: 5px;
+        height: 30px;
+    }
+    .seg.seg-tl { left: 5px; top: 7px; }
+    .seg.seg-tr { left: 38px; top: 7px; }
+    .seg.seg-bl { left: 5px; top: 43px; }
+    .seg.seg-br { left: 38px; top: 43px; }
+
+    .pixel-grid {
+        grid-template-columns: repeat(32, 4px);
+        grid-template-rows: repeat(32, 4px);
+    }
+
+    .pixel {
+        width: 4px;
+        height: 4px;
+    }
+
+    #memory-body {
+        max-height: 140px;
+    }
+
+    #memory-dump {
+        font-size: 9px;
+    }
+
+    .memory-controls {
+        gap: 3px;
+        font-size: 10px;
+    }
+
+    .memory-controls .hex-input {
+        width: 40px;
+        font-size: 11px;
+    }
+
+    .memory-controls select {
+        font-size: 10px;
+    }
+
+    .memory-controls button {
+        font-size: 10px;
+        padding: 2px 6px;
+    }
+
+    #console-output {
+        font-size: 11px;
+    }
+
+    .trace-table {
+        font-size: 10px;
+    }
+
+    .panel-header {
+        padding: 5px 8px;
+        font-size: 10px;
+    }
+
+    .panel-body {
+        padding: 6px 8px;
+    }
+
+    .help-modal {
+        width: 100vw;
+        height: 100vh;
+        border-radius: 0;
+    }
+
+    .help-modal-header {
+        padding: 10px 12px;
+    }
+
+    .help-modal-header h2 {
+        font-size: 14px;
+    }
+
+    .help-body {
+        padding: 12px;
+        line-height: 1.6;
+    }
+
+    .help-body h3 {
+        font-size: 17px;
+    }
+
+    .help-body h4 {
+        font-size: 14px;
+    }
+
+    .help-body pre {
+        font-size: 11px;
+        padding: 8px 10px;
+    }
+
+    .help-body code {
+        font-size: 11px;
+    }
+
+    .io-row {
+        font-size: 12px;
+    }
+
+    .conv-row {
+        font-size: 11px;
+    }
+
+    .hex-input {
+        font-size: 12px;
+    }
+
+    select {
+        font-size: 12px;
+    }
+
+    .challenge-card {
+        padding: 6px 8px;
+    }
+
+    .challenge-title {
+        font-size: 11px;
+    }
+
+    .challenge-desc {
+        font-size: 10px;
+    }
+}
+
+/* ---- SAFE AREA INSETS (notch / home indicator) ---- */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+    #toolbar {
+        padding-top: max(8px, env(safe-area-inset-top));
+        padding-left: max(10px, env(safe-area-inset-left));
+        padding-right: max(10px, env(safe-area-inset-right));
+    }
+
+    #console-panel,
+    #memory-panel {
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+}
+
+/* ---- TOUCH TARGETS ---- */
+@media (pointer: coarse) {
+    button {
+        min-height: 36px;
+        min-width: 36px;
+    }
+
+    select {
+        min-height: 36px;
+    }
+
+    .hex-input {
+        min-height: 32px;
+    }
+
+    .flag {
+        padding: 6px 10px;
+    }
+
+    .help-sidebar-item {
+        min-height: 36px;
+        display: flex;
+        align-items: center;
+    }
+
+    .quiz-option {
+        padding: 8px 10px;
+    }
+
+    .challenge-card {
+        padding: 10px 12px;
+    }
+
+    .ac-item {
+        padding: 8px 12px;
+    }
+}
+
+/* ---- LANDSCAPE PHONE ---- */
+@media (max-height: 500px) and (orientation: landscape) {
+    #toolbar {
+        padding: 4px 8px;
+        gap: 4px;
+    }
+
+    .toolbar-left {
+        width: auto;
+    }
+
+    #editor-panel {
+        min-height: 200px;
+    }
+
+    .help-modal {
+        height: 100vh;
+    }
+}
