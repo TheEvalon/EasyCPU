@@ -62,11 +62,35 @@ test('CRLF starts a new line at column 0', () => {
     assertCursor(t, { row: 1, col: 1 });
 });
 
-test('backspace moves left without erasing', () => {
+test('backspace moves left and clears the character', () => {
     const t = VT100.create();
     t.write('AB\b');
-    assert.strictEqual(t.getLine(0, true), 'AB');
+    assert.strictEqual(t.getLine(0, true), 'A');
+    assert.strictEqual(t.getCell(0, 1).ch, ' ');
     assertCursor(t, { row: 0, col: 1 });
+});
+
+test('backspace then a new character replaces the erased cell', () => {
+    const t = VT100.create();
+    t.write('AB\bX');
+    assert.strictEqual(t.getLine(0, true), 'AX');
+    assertCursor(t, { row: 0, col: 2 });
+});
+
+test('backspace at column 0 is a no-op', () => {
+    const t = VT100.create();
+    t.write('A\b\b');
+    assert.strictEqual(t.getLine(0, true), '');
+    assert.strictEqual(t.getCell(0, 0).ch, ' ');
+    assertCursor(t, { row: 0, col: 0 });
+});
+
+test('backspace after filling the last column erases that last character', () => {
+    const t = VT100.create({ cols: 4, rows: 2 });
+    t.write('abcd\b');
+    assert.strictEqual(t.getLine(0, true), 'abc');
+    assert.strictEqual(t.getLine(1, true), '');
+    assertCursor(t, { row: 0, col: 3 });
 });
 
 test('TAB advances to the next 8-column stop', () => {

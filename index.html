@@ -221,8 +221,16 @@
 
     <main id="app">
         <section id="editor-panel">
-            <div class="panel-header" title="Write your 8086 assembly code here. Press Assemble to compile, then Run or Step to execute.">Code Editor
-                <span id="cycle-counter" class="adv cycle-counter"></span>
+            <div class="panel-header" title="Write your 8086 assembly code here. Press Assemble to compile, then Run or Step to execute. Use A− / A+ or Ctrl+− / Ctrl+= to zoom the editor.">
+                <span>Code Editor</span>
+                <span class="editor-header-actions">
+                    <span class="editor-zoom" title="Editor font size">
+                        <button id="btn-editor-zoom-out" class="small-btn" type="button" title="Zoom out (Ctrl+−)" aria-label="Zoom editor out">A−</button>
+                        <span id="editor-zoom-label" class="editor-zoom-label">100%</span>
+                        <button id="btn-editor-zoom-in" class="small-btn" type="button" title="Zoom in (Ctrl+=)" aria-label="Zoom editor in">A+</button>
+                    </span>
+                    <span id="cycle-counter" class="adv cycle-counter"></span>
+                </span>
             </div>
             <div id="editor-container">
                 <div id="line-numbers"></div>

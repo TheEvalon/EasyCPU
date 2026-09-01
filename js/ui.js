@@ -8,11 +8,18 @@ const UI = (() => {
     let assembled = null;
     let prevRegs = {};
 
+    const EDITOR_ZOOM_MIN = 10;
+    const EDITOR_ZOOM_MAX = 24;
+    const EDITOR_ZOOM_DEFAULT = 13;
+    const EDITOR_ZOOM_STORAGE = 'easycpu_editor_zoom';
+    let editorZoom = EDITOR_ZOOM_DEFAULT;
+
     const editor = () => $('#code-editor');
     const lineNums = () => $('#line-numbers');
 
     function init() {
         bindEvents();
+        initEditorZoom();
         updateLineNumbers();
         updateRegisters();
         updateFlags();
@@ -88,12 +95,24 @@ const UI = (() => {
                 editor().selectionStart = editor().selectionEnd = start + 1;
                 updateLineNumbers();
                 triggerHighlight();
+                return;
             }
-            if (e.ctrlKey && e.key === 'Enter') {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
                 e.preventDefault();
                 doAssemble();
+                return;
             }
+            if (handleEditorZoomKey(e)) return;
         });
+
+        const editorContainer = $('#editor-container');
+        if (editorContainer) {
+            editorContainer.addEventListener('wheel', (e) => {
+                if (!(e.ctrlKey || e.metaKey)) return;
+                e.preventDefault();
+                nudgeEditorZoom(e.deltaY < 0 ? 1 : -1);
+            }, { passive: false });
+        }
 
         $('#sample-select').addEventListener('change', (e) => {
             let name = e.target.value;
@@ -113,6 +132,95 @@ const UI = (() => {
                 e.target.value = (val & 0xFF).toString(16).toUpperCase().padStart(2, '0');
             }
         });
+
+        const zoomOut = $('#btn-editor-zoom-out');
+        const zoomIn = $('#btn-editor-zoom-in');
+        if (zoomOut) zoomOut.addEventListener('click', () => nudgeEditorZoom(-1));
+        if (zoomIn) zoomIn.addEventListener('click', () => nudgeEditorZoom(1));
+    }
+
+    function clampEditorZoom(px) {
+        if (px < EDITOR_ZOOM_MIN) return EDITOR_ZOOM_MIN;
+        if (px > EDITOR_ZOOM_MAX) return EDITOR_ZOOM_MAX;
+        return px;
+    }
+
+    function readSavedEditorZoom() {
+        try {
+            const raw = localStorage.getItem(EDITOR_ZOOM_STORAGE);
+            if (raw == null) return null;
+            const n = parseInt(raw, 10);
+            if (isNaN(n)) return null;
+            return clampEditorZoom(n);
+        } catch (err) {
+            return null;
+        }
+    }
+
+    function computedEditorFontSize() {
+        const el = editor();
+        if (!el) return EDITOR_ZOOM_DEFAULT;
+        const n = parseFloat(getComputedStyle(el).fontSize);
+        return isNaN(n) ? EDITOR_ZOOM_DEFAULT : Math.round(n);
+    }
+
+    function applyEditorZoom(px) {
+        editorZoom = clampEditorZoom(px);
+        const container = $('#editor-container');
+        if (container) {
+            container.style.setProperty('--editor-font-size', editorZoom + 'px');
+            container.style.setProperty('--editor-gutter-width', Math.max(32, Math.round(editorZoom * 3.4)) + 'px');
+        }
+        const label = $('#editor-zoom-label');
+        if (label) label.textContent = Math.round((editorZoom / EDITOR_ZOOM_DEFAULT) * 100) + '%';
+        const zoomOut = $('#btn-editor-zoom-out');
+        const zoomIn = $('#btn-editor-zoom-in');
+        if (zoomOut) zoomOut.disabled = editorZoom <= EDITOR_ZOOM_MIN;
+        if (zoomIn) zoomIn.disabled = editorZoom >= EDITOR_ZOOM_MAX;
+        try {
+            localStorage.setItem(EDITOR_ZOOM_STORAGE, String(editorZoom));
+        } catch (err) { /* ignore quota / private mode */ }
+        triggerHighlight();
+        syncScroll();
+    }
+
+    function nudgeEditorZoom(delta) {
+        applyEditorZoom(editorZoom + delta);
+    }
+
+    function handleEditorZoomKey(e) {
+        if (!(e.ctrlKey || e.metaKey) || e.altKey) return false;
+        if (e.code === 'Equal' || e.code === 'NumpadAdd' || e.key === '=' || e.key === '+') {
+            e.preventDefault();
+            nudgeEditorZoom(1);
+            return true;
+        }
+        if (e.code === 'Minus' || e.code === 'NumpadSubtract' || e.key === '-' || e.key === '_') {
+            e.preventDefault();
+            nudgeEditorZoom(-1);
+            return true;
+        }
+        if (e.code === 'Digit0' || e.code === 'Numpad0' || e.key === '0') {
+            e.preventDefault();
+            applyEditorZoom(EDITOR_ZOOM_DEFAULT);
+            return true;
+        }
+        return false;
+    }
+
+    function initEditorZoom() {
+        const saved = readSavedEditorZoom();
+        if (saved != null) {
+            applyEditorZoom(saved);
+            return;
+        }
+        editorZoom = clampEditorZoom(computedEditorFontSize());
+        const label = $('#editor-zoom-label');
+        if (label) label.textContent = Math.round((editorZoom / EDITOR_ZOOM_DEFAULT) * 100) + '%';
+        const zoomOut = $('#btn-editor-zoom-out');
+        const zoomIn = $('#btn-editor-zoom-in');
+        if (zoomOut) zoomOut.disabled = editorZoom <= EDITOR_ZOOM_MIN;
+        if (zoomIn) zoomIn.disabled = editorZoom >= EDITOR_ZOOM_MAX;
     }
 
     function triggerHighlight() {

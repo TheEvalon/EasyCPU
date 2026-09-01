@@ -256,6 +256,8 @@ select:focus, button:focus, input:focus, textarea:focus {
 
 /* ---- EDITOR ---- */
 #editor-container {
+    --editor-font-size: 13px;
+    --editor-gutter-width: 44px;
     display: flex;
     flex: 1;
     min-height: 140px;
@@ -263,12 +265,42 @@ select:focus, button:focus, input:focus, textarea:focus {
     overflow: hidden;
 }
 
+.editor-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+}
+
+.editor-zoom {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+.editor-zoom-label {
+    min-width: 3.2em;
+    text-align: center;
+    font-family: 'Cascadia Code', 'Consolas', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.editor-zoom .small-btn {
+    min-width: 28px;
+    padding: 2px 6px;
+    font-weight: 700;
+}
+
 #line-numbers {
-    width: 44px;
+    width: var(--editor-gutter-width);
     padding: 10px 6px 10px 0;
     text-align: right;
     font-family: 'Cascadia Code', 'Consolas', 'Courier New', monospace;
-    font-size: 13px;
+    font-size: var(--editor-font-size);
     line-height: 1.6;
     color: var(--text-muted);
     background: var(--bg-secondary);
@@ -286,7 +318,7 @@ select:focus, button:focus, input:focus, textarea:focus {
     border: none;
     resize: none;
     font-family: 'Cascadia Code', 'Consolas', 'Courier New', monospace;
-    font-size: 13px;
+    font-size: var(--editor-font-size);
     line-height: 1.6;
     tab-size: 4;
     white-space: pre;
@@ -1240,7 +1272,7 @@ body:not(.advanced-mode) .adv { display: none !important; }
 #highlight-overlay {
     position: absolute;
     top: 0;
-    left: 45px;
+    left: calc(var(--editor-gutter-width) + 1px);
     right: 0;
     bottom: 0;
     padding: 10px 12px;
@@ -1248,7 +1280,7 @@ body:not(.advanced-mode) .adv { display: none !important; }
     background: transparent;
     color: transparent;
     font-family: 'Cascadia Code', 'Consolas', 'Courier New', monospace;
-    font-size: 13px;
+    font-size: var(--editor-font-size);
     line-height: 1.6;
     tab-size: 4;
     white-space: pre;
@@ -1338,7 +1370,6 @@ body:not(.advanced-mode) .adv { display: none !important; }
     font-family: 'Cascadia Code', 'Consolas', monospace;
     font-size: 10px;
     color: var(--text-muted);
-    margin-left: auto;
 }
 
 /* ---- 7-SEGMENT DISPLAY ---- */
@@ -1869,20 +1900,21 @@ body:not(.advanced-mode) .adv { display: none !important; }
         max-height: 45vh;
     }
 
+    #editor-container {
+        --editor-font-size: 12px;
+        --editor-gutter-width: 32px;
+    }
+
+    .editor-zoom-label {
+        display: none;
+    }
+
     #code-editor {
-        font-size: 12px;
         padding: 8px;
         tab-size: 2;
     }
 
-    #line-numbers {
-        width: 32px;
-        font-size: 11px;
-    }
-
     #highlight-overlay {
-        left: 33px;
-        font-size: 12px;
         padding: 8px;
         tab-size: 2;
     }
