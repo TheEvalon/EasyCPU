@@ -53,7 +53,7 @@ each instruction step by step.</p>
 
 <h4>Panels</h4>
 <ul>
-<li><strong>Code Editor</strong> (left) &mdash; Type your assembly code here. Line numbers appear on the left. The currently executing line is highlighted.</li>
+<li><strong>Code Editor</strong> (left) &mdash; Type your assembly code here. Line numbers appear on the left. The currently executing line is highlighted. Use <strong>A− / A+</strong> (or <code>Ctrl+−</code> / <code>Ctrl+=</code>) to zoom the font; <code>Ctrl+0</code> resets it.</li>
 <li><strong>Registers</strong> (right) &mdash; Shows the current value of every CPU register in hexadecimal. Values flash green when they change.</li>
 <li><strong>Flags</strong> (right) &mdash; Six status flags that change after arithmetic operations. A lit-up flag means its value is 1.</li>
 <li><strong>LED Output</strong> (right) &mdash; Eight virtual LEDs controlled by writing to port 2. Each LED represents one bit.</li>
@@ -596,7 +596,7 @@ printable characters appear on the screen, and <code>ESC</code> (<code>1Bh</code
 (cursor movement, colors, clear screen). This is separate from the Output Console log.</p>
 <table class="help-table">
 <tr><th>How</th><th>What it Does</th></tr>
-<tr><td><code>OUT 8, AL</code></td><td>Write one raw byte to the terminal (including escape sequences)</td></tr>
+<tr><td><code>OUT 8, AL</code> or <code>OUT DX, AL</code> with <code>DX=8</code></td><td>Write one raw byte to the terminal (including escape sequences). Both forms talk to the same port.</td></tr>
 <tr><td><code>IN AL, 8</code></td><td>Read the next typed key (0 if none). Click the terminal first, then type.</td></tr>
 <tr><td><code>IN AL, 9</code></td><td>Status: bit 0 = a key is waiting, bit 1 = transmitter ready (always 1)</td></tr>
 <tr><td><code>INT 21h</code> <code>AH=09h</code></td><td>Print the <code>$</code>-terminated string at <code>DS:DX</code></td></tr>
@@ -614,6 +614,7 @@ printable characters appear on the screen, and <code>ESC</code> (<code>1Bh</code
 <tr><td><code>ESC [ row ; col H</code></td><td>Move cursor (1-based row and column)</td></tr>
 <tr><td><code>ESC [ 31 m</code></td><td>Red text (30&ndash;37 = ANSI colors; 0 = reset)</td></tr>
 <tr><td><code>CR</code> / <code>LF</code> (<code>0Dh</code> / <code>0Ah</code>)</td><td>Carriage return / line feed</td></tr>
+<tr><td><code>BS</code> (<code>08h</code>)</td><td>Move the cursor left one column and erase that character</td></tr>
 </table>
 <div class="tip-box"><strong>Tip:</strong> Load <strong>Beginner: Hello Terminal</strong>, <strong>Advanced: VT100 Color</strong>, or <strong>Advanced: Terminal Echo</strong>.</div>
 
@@ -655,12 +656,18 @@ Clear bit 0 to stop. This mimics the classic PC speaker port.</p>
 
 <h4>Writing to a Port</h4>
 <pre><span class="kw">out</span> <span class="num">2</span>, <span class="reg">al</span>        <span class="cmt">; write AL to LED port</span>
-<span class="kw">out</span> <span class="num">3</span>, <span class="reg">al</span>        <span class="cmt">; write AL to 7-segment</span></pre>
+<span class="kw">out</span> <span class="num">3</span>, <span class="reg">al</span>        <span class="cmt">; write AL to 7-segment</span>
+<span class="kw">out</span> <span class="num">8</span>, <span class="reg">al</span>        <span class="cmt">; write AL to the VT100 terminal</span></pre>
 
 <h4>Using DX for Port Address</h4>
 <p>For ports with numbers larger than 255, or when you want to use a variable port number,
-load the port number into DX:</p>
-<pre><span class="kw">mov</span> <span class="reg">dx</span>, <span class="num">61h</span>      <span class="cmt">; speaker port number</span>
+load the port number into DX. <code>OUT DX, AL</code> with <code>DX = 8</code> is the same as
+<code>OUT 8, AL</code> (both send AL to the VT100 terminal):</p>
+<pre><span class="kw">mov</span> <span class="reg">dx</span>, <span class="num">8</span>        <span class="cmt">; VT100 data port</span>
+<span class="kw">mov</span> <span class="reg">al</span>, <span class="num">8</span>        <span class="cmt">; ASCII backspace</span>
+<span class="kw">out</span> <span class="reg">dx</span>, <span class="reg">al</span>       <span class="cmt">; same as: out 8, al</span>
+
+<span class="kw">mov</span> <span class="reg">dx</span>, <span class="num">61h</span>      <span class="cmt">; speaker port number</span>
 <span class="kw">mov</span> <span class="reg">al</span>, <span class="num">1</span>
 <span class="kw">out</span> <span class="reg">dx</span>, <span class="reg">al</span>       <span class="cmt">; write to port in DX</span></pre>
 
@@ -936,10 +943,22 @@ Use the debugger (Step, Trace, Breakpoints) to find where your program goes wron
 <p>When assembly fails, lines with errors are marked with a <strong>red highlight</strong> in the gutter.
 Hover over the red line number to see the error message. Errors also appear in the console.</p>
 
+<h4>Editor Zoom</h4>
+<p>The <strong>A−</strong> / <strong>A+</strong> buttons in the Code Editor header change the editor font size
+(10px&ndash;24px). The size is saved in your browser. Keyboard:</p>
+<ul>
+<li><code>Ctrl + =</code> or <code>Ctrl + +</code> &mdash; zoom in</li>
+<li><code>Ctrl + −</code> &mdash; zoom out</li>
+<li><code>Ctrl + 0</code> &mdash; reset to 100%</li>
+<li><code>Ctrl + mouse wheel</code> over the editor &mdash; zoom in or out</li>
+</ul>
+
 <h4>Keyboard Shortcuts</h4>
 <table class="help-table">
 <tr><th>Shortcut</th><th>Action</th></tr>
 <tr><td><code>Ctrl + Enter</code></td><td>Assemble</td></tr>
+<tr><td><code>Ctrl + =</code> / <code>Ctrl + −</code></td><td>Zoom the editor in / out</td></tr>
+<tr><td><code>Ctrl + 0</code></td><td>Reset editor zoom</td></tr>
 <tr><td><code>F1</code></td><td>Open Help</td></tr>
 <tr><td><code>Escape</code></td><td>Close Help / Dismiss autocomplete</td></tr>
 </table>

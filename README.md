@@ -8,13 +8,13 @@
 
 ## Features
 
-- **Code Editor** — Syntax highlighting, line numbers, autocomplete (Advanced mode)
+- **Code Editor** — Syntax highlighting, line numbers, zoom, autocomplete (Advanced mode)
 - **Step-by-step Debugger** — Breakpoints, step back, execution trace log
 - **Visual CPU** — Registers (AX–DX, SP, BP, SI, DI, IP, DS, SS, CS), flags (CF, ZF, SF, OF, PF, AF)
 - **Memory Viewer** — Hex dump with Data, Stack, and Code segment views
 - **Stack Viewer** — Real-time stack contents with SP pointer
 - **I/O Peripherals** — LEDs (Port 2), 7-segment display (Port 3), 32×32 pixel screen (Port 4)
-- **VT100 Terminal** — 80×24 text screen (Port 8 / `INT 21h` AH=01h, 02h, 09h)
+- **VT100 Terminal** — 80×24 text screen (Port 8 / `INT 21h` AH=01h, 02h, 09h). `OUT 8, AL` with AL=8 (BS) moves the cursor left and erases. `OUT DX, AL` with DX=8 is the same port.
 - **Keyboard Input** — Type characters; program reads via Port 5/6
 - **Sample Programs** — Beginner and Advanced examples with comments
 - **Coding Challenges** — Auto-graded exercises (Set AX to 42, Light LEDs, Sort bytes, etc.)

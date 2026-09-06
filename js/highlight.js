@@ -233,13 +233,17 @@ const Highlight = (() => {
         const lines = text.split('\n');
         const lineNum = lines.length;
         const colNum = lines[lines.length - 1].length;
-        const lineHeight = parseFloat(getComputedStyle(textarea).lineHeight) || 20.8;
-        const charWidth = 7.8;
+        const cs = getComputedStyle(textarea);
+        const fontSize = parseFloat(cs.fontSize) || 13;
+        const lineHeight = parseFloat(cs.lineHeight) || fontSize * 1.6;
+        const charWidth = fontSize * 0.6;
+        const padLeft = parseFloat(cs.paddingLeft) || 12;
+        const padTop = parseFloat(cs.paddingTop) || 10;
         const rect = textarea.getBoundingClientRect();
         const contRect = container.getBoundingClientRect();
         return {
-            left: (rect.left - contRect.left) + (colNum * charWidth) + 12 - textarea.scrollLeft,
-            top: ((lineNum) * lineHeight) + 10 - textarea.scrollTop
+            left: (rect.left - contRect.left) + (colNum * charWidth) + padLeft - textarea.scrollLeft,
+            top: (lineNum * lineHeight) + padTop - textarea.scrollTop
         };
     }
 

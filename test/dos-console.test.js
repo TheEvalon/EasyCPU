@@ -58,6 +58,9 @@ function runProgram(source, options) {
     const term = VT100.create();
     const input = (options.input || []).slice();
     CPU.init();
+    CPU.setOnPortWrite((port, val) => {
+        if ((port & 0xFFFF) === 8) term.write(val);
+    });
     CPU.setOnConsole({
         write: (b) => term.write(b),
         read: () => (input.length ? input.shift() : 0) & 0xFF,
@@ -179,6 +182,82 @@ test('ANSI CUP via INT 21h AH=09 places text', () => {
     const { term, assembled } = runProgram(src);
     assert.strictEqual(assembled.errors.length, 0);
     assert.strictEqual(term.getCell(1, 4).ch, 'X');
+});
+
+test('OUT 8, AL with ASCII 8 backs up and clears the character', () => {
+    const src = [
+        '.model small',
+        '.stack 100h',
+        '.data',
+        '.code',
+        'mov ax, @data',
+        'mov ds, ax',
+        "mov al, 'A'",
+        'out 8, al',
+        "mov al, 'B'",
+        'out 8, al',
+        'mov al, 8',
+        'out 8, al',
+        'hlt',
+        'end'
+    ].join('\n');
+    const { term, assembled } = runProgram(src);
+    assert.strictEqual(assembled.errors.length, 0, assembled.errors.map(e => e.message).join('; '));
+    assert.strictEqual(term.getLine(0, true), 'A');
+    assert.strictEqual(term.getCell(0, 1).ch, ' ');
+    const cur = term.getCursor();
+    assert.strictEqual(cur.row, 0);
+    assert.strictEqual(cur.col, 1);
+});
+
+test('OUT DX, AL with DX=8 matches OUT 8, AL for backspace', () => {
+    const src = [
+        '.model small',
+        '.stack 100h',
+        '.data',
+        '.code',
+        'mov ax, @data',
+        'mov ds, ax',
+        "mov al, 'A'",
+        'out 8, al',
+        "mov al, 'B'",
+        'out 8, al',
+        'mov dx, 8',
+        'mov al, 8',
+        'out dx, al',
+        'hlt',
+        'end'
+    ].join('\n');
+    const { term, assembled } = runProgram(src);
+    assert.strictEqual(assembled.errors.length, 0, assembled.errors.map(e => e.message).join('; '));
+    assert.strictEqual(term.getLine(0, true), 'A');
+    assert.strictEqual(term.getCell(0, 1).ch, ' ');
+    const cur = term.getCursor();
+    assert.strictEqual(cur.row, 0);
+    assert.strictEqual(cur.col, 1);
+});
+
+test('INT 21h AH=02 with DL=8 also erases the previous character', () => {
+    const src = [
+        '.model small',
+        '.stack 100h',
+        '.data',
+        '.code',
+        'mov ax, @data',
+        'mov ds, ax',
+        "mov dl, 'A'",
+        'mov ah, 2',
+        'int 21h',
+        "mov dl, 'B'",
+        'int 21h',
+        'mov dl, 8',
+        'int 21h',
+        'mov ah, 4ch',
+        'int 21h',
+        'end'
+    ].join('\n');
+    const { term } = runProgram(src);
+    assert.strictEqual(term.getLine(0, true), 'A');
 });
 
 test('OUT to port 8 writes raw bytes through the port-write callback', () => {

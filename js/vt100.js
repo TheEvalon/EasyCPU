@@ -113,9 +113,24 @@ const VT100 = (() => {
             col = 0;
         }
 
+        function eraseCellAtCursor() {
+            cells[row][col] = blankCell();
+            dirty = true;
+        }
+
+        // BS (08h): move left one column and clear that character.
+        // After writing into the last column, wrap is pending — erase that
+        // last cell without wrapping onto the next line.
         function backspace() {
-            wrapPending = false;
-            if (col > 0) col--;
+            if (wrapPending) {
+                wrapPending = false;
+                eraseCellAtCursor();
+                return;
+            }
+            if (col > 0) {
+                col--;
+                eraseCellAtCursor();
+            }
         }
 
         function tab() {
